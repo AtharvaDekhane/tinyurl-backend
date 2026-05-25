@@ -1,0 +1,34 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# STS
+.springBeans
+.sts4-cache/
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+
+# Application secrets
+src/main/resources/application-local.properties
+application-local.properties
+
+# Mac
+._*
+
+# Redis dump
+dump.rdb
