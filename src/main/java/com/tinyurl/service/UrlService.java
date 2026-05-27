@@ -3,6 +3,7 @@ package com.tinyurl.service;
 import com.tinyurl.dto.CreateUrlRequest;
 import com.tinyurl.dto.CreateUrlResponse;
 import com.tinyurl.dto.UrlClickEvent;
+import com.tinyurl.dto.UrlListResponse;
 import com.tinyurl.entity.Url;
 import com.tinyurl.repository.UrlRepository;
 import com.tinyurl.util.Base62Util;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -76,5 +78,33 @@ public class UrlService {
         );
 
         return url.getOriginalUrl();
+    }
+
+    public void deleteUrl(Long id) {
+
+        Url url = repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("URL not found")
+                );
+
+        redisTemplate.delete(
+                "url:" + url.getShortCode()
+        );
+
+        repository.delete(url);
+    }
+
+    public List<UrlListResponse> getAllUrls() {
+
+        List<Url> urls = repository.findAll();
+
+        return urls.stream()
+                .map(url ->
+                        new UrlListResponse(
+                                url.getId(),
+                                url.getOriginalUrl()
+                        )
+                )
+                .toList();
     }
 }

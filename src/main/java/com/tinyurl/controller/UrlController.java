@@ -2,6 +2,7 @@ package com.tinyurl.controller;
 
 import com.tinyurl.dto.CreateUrlRequest;
 import com.tinyurl.dto.CreateUrlResponse;
+import com.tinyurl.dto.UrlListResponse;
 import com.tinyurl.service.RateLimiterService;
 import com.tinyurl.service.UrlService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +12,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +25,10 @@ public class UrlController {
     private final UrlService urlService;
     private final RateLimiterService rateLimiterService;
 
+    @Operation(
+            summary = "Create short URL",
+            description = "Creates a short URL for a given original URL"
+    )
     @PostMapping("/api/v1/url")
     public ResponseEntity<CreateUrlResponse> createShortUrl(
             @Valid @RequestBody CreateUrlRequest request) {
@@ -29,6 +38,10 @@ public class UrlController {
         );
     }
 
+    @Operation(
+            summary = "Redirect short URL",
+            description = "Redirects short URL to original URL"
+    )
     @GetMapping("/{shortCode}")
     public ResponseEntity<Void> redirect(
             @PathVariable String shortCode,
@@ -54,5 +67,33 @@ public class UrlController {
                 .status(302)
                 .headers(headers)
                 .build();
+    }
+
+    @Operation(
+            summary = "Delete URL",
+            description = "Deletes URL by ID"
+    )
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUrl(
+            @PathVariable Long id
+    ) {
+
+        urlService.deleteUrl(id);
+
+        return ResponseEntity.ok(
+                "URL deleted successfully"
+        );
+    }
+
+    @Operation(
+            summary = "Get all URLs",
+            description = "Returns all stored URLs"
+    )
+    @GetMapping
+    public ResponseEntity<List<UrlListResponse>> getAllUrls() {
+
+        return ResponseEntity.ok(
+                urlService.getAllUrls()
+        );
     }
 }
