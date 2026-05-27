@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,7 @@ public class UrlController {
             summary = "Create short URL",
             description = "Creates a short URL for a given original URL"
     )
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping("/api/v1/url")
     public ResponseEntity<CreateUrlResponse> createShortUrl(
             @Valid @RequestBody CreateUrlRequest request) {
@@ -42,6 +44,7 @@ public class UrlController {
             summary = "Redirect short URL",
             description = "Redirects short URL to original URL"
     )
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/{shortCode}")
     public ResponseEntity<Void> redirect(
             @PathVariable String shortCode,
@@ -73,6 +76,7 @@ public class UrlController {
             summary = "Delete URL",
             description = "Deletes URL by ID"
     )
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUrl(
             @PathVariable Long id
@@ -89,6 +93,7 @@ public class UrlController {
             summary = "Get all URLs",
             description = "Returns all stored URLs"
     )
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UrlListResponse>> getAllUrls() {
 

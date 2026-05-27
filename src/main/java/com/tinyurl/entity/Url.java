@@ -2,6 +2,8 @@ package com.tinyurl.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 import java.time.LocalDateTime;
 
@@ -27,4 +29,8 @@ public class Url {
     private LocalDateTime createdAt;
 
     private Long clickCount;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
