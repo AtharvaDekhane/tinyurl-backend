@@ -27,7 +27,6 @@ public class Url {
     private String originalUrl;
 
     private LocalDateTime createdAt;
-
     private Long clickCount;
 
     @ManyToOne

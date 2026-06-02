@@ -9,7 +9,6 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic urlClickTopic() {
-
         return new NewTopic(
                 "url-click-topic",
                 1,

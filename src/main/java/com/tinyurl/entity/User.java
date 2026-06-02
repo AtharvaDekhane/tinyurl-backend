@@ -27,31 +27,25 @@ public class User {
     private Role role;
 
     private Integer urlQuota;
-
     private Boolean firstLogin;
-
     private Boolean isActive;
-
     private LocalDateTime passwordExpiry;
-
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
+    private String resetToken;
+    private LocalDateTime resetTokenExpiry;
 
     @OneToMany(mappedBy = "user")
     private List<Url> urls;
 
     @PrePersist
     public void prePersist() {
-
         this.createdAt = LocalDateTime.now();
-
         this.updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     public void preUpdate() {
-
         this.updatedAt = LocalDateTime.now();
     }
 }

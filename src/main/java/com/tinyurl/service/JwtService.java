@@ -18,7 +18,6 @@ public class JwtService {
     private String secretKey;
 
     public String generateToken(String email, String role) {
-
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
         return Jwts.builder()
@@ -35,11 +34,11 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token) {
-
         try {
             extractAllClaims(token);
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return false;
         }
     }

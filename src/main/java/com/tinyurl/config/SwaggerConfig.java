@@ -16,30 +16,18 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
 
         final String securitySchemeName = "bearerAuth";
-
         return new OpenAPI()
-
-                .info(
-                        new Info()
+                .info(new Info()
                                 .title("TinyURL Backend API")
                                 .version("1.0")
-                                .description(
-                                        "Scalable TinyURL backend with JWT Authentication"
-                                )
-                                .contact(
-                                        new Contact()
-                                                .name("Atharva")
-                                )
+                                .description("Scalable TinyURL backend with JWT Authentication")
+                                .contact(new Contact().name("Atharva Dekhane"))
                 )
-
-                .addSecurityItem(
-                        new SecurityRequirement()
-                                .addList(securitySchemeName)
+                .addSecurityItem(new SecurityRequirement()
+                        .addList(securitySchemeName)
                 )
-
                 .schemaRequirement(
                         securitySchemeName,
-
                         new SecurityScheme()
                                 .name(securitySchemeName)
                                 .type(SecurityScheme.Type.HTTP)

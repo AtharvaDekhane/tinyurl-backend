@@ -8,6 +8,5 @@ import lombok.Data;
 public class UrlListResponse {
 
     private Long id;
-
     private String originalUrl;
 }

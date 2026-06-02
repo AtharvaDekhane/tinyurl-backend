@@ -12,39 +12,22 @@ import java.time.Duration;
 public class RateLimiterService {
 
     private final RedisTemplate<String, String> redisTemplate;
-
     private static final int MAX_REQUESTS = 100;
-
-    private static final Duration WINDOW =
-            Duration.ofMinutes(1);
+    private static final Duration WINDOW = Duration.ofMinutes(1);
 
     public void validateRateLimit(String ipAddress) {
-
         String key = "rate_limit:" + ipAddress;
-
-        String currentCount =
-                redisTemplate.opsForValue().get(key);
+        String currentCount = redisTemplate.opsForValue().get(key);
 
         // First request
         if (currentCount == null) {
-
-            redisTemplate.opsForValue().set(
-                    key,
-                    "1",
-                    WINDOW
-            );
-
+            redisTemplate.opsForValue().set(key, "1", WINDOW);
             return;
         }
 
-        int requests =
-                Integer.parseInt(currentCount);
-
+        int requests = Integer.parseInt(currentCount);
         if (requests >= MAX_REQUESTS) {
-
-            throw new RateLimitExceededException(
-                    "Too many requests"
-            );
+            throw new RateLimitExceededException("Too many requests");
         }
 
         redisTemplate.opsForValue().increment(key);
